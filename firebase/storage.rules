@@ -1,0 +1,105 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // ============================================
+    // FUNCIONES AUXILIARES
+    // ============================================
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return request.auth.token.admin == true;
+    }
+
+    function isValidVideoType() {
+      return request.resource.contentType.matches('video/mp4')
+          || request.resource.contentType.matches('video/webm')
+          || request.resource.contentType.matches('video/quicktime');
+    }
+
+    function isValidImageType() {
+      return request.resource.contentType.matches('image/jpeg')
+          || request.resource.contentType.matches('image/png')
+          || request.resource.contentType.matches('image/webp');
+    }
+
+    // ============================================
+    // VIDEOS DE RETOS
+    // ============================================
+    match /challenges/{challengeId}/videos/{fileName} {
+      // Cualquier usuario autenticado puede ver videos
+      allow read: if isAuthenticated();
+
+      // Usuario puede subir videos:
+      // - Máximo 50MB
+      // - Solo formatos de video válidos
+      // - Debe incluir metadata con su UID
+      allow create: if isAuthenticated()
+                    && request.resource.size < 50 * 1024 * 1024
+                    && isValidVideoType()
+                    && request.resource.metadata.uploadedBy == request.auth.uid;
+
+      // No se permite actualizar videos
+      allow update: if false;
+
+      // Solo admin puede eliminar videos
+      allow delete: if isAdmin();
+    }
+
+    // ============================================
+    // THUMBNAILS DE VIDEOS
+    // ============================================
+    match /challenges/{challengeId}/thumbnails/{fileName} {
+      // Cualquiera puede ver thumbnails
+      allow read: if isAuthenticated();
+
+      // Sistema puede crear thumbnails (o usuario con su UID)
+      allow create: if isAuthenticated()
+                    && request.resource.size < 2 * 1024 * 1024
+                    && isValidImageType();
+
+      // Solo admin puede eliminar
+      allow delete: if isAdmin();
+    }
+
+    // ============================================
+    // FOTOS DE PERFIL
+    // ============================================
+    match /profiles/{userId}/{fileName} {
+      // Las fotos de perfil son públicas
+      allow read: if true;
+
+      // Solo el dueño puede subir su foto:
+      // - Máximo 5MB
+      // - Solo imágenes
+      allow create, update: if isAuthenticated()
+                            && isOwner(userId)
+                            && request.resource.size < 5 * 1024 * 1024
+                            && isValidImageType();
+
+      // Usuario puede eliminar su propia foto, admin cualquiera
+      allow delete: if isAuthenticated()
+                    && (isOwner(userId) || isAdmin());
+    }
+
+    // ============================================
+    // ARCHIVOS TEMPORALES
+    // ============================================
+    match /temp/{userId}/{fileName} {
+      // Usuario puede gestionar sus archivos temporales
+      allow read, write: if isAuthenticated()
+                         && isOwner(userId)
+                         && request.resource.size < 100 * 1024 * 1024;
+
+      // Limpieza automática por Cloud Functions
+      allow delete: if isAdmin();
+    }
+  }
+}

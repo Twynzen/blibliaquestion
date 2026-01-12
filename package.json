@@ -1,0 +1,27 @@
+{
+  "name": "biblia-question",
+  "version": "1.0.0",
+  "description": "Plataforma de torneos bíblicos interactivos",
+  "private": true,
+  "workspaces": [
+    "apps/frontend",
+    "apps/backend"
+  ],
+  "scripts": {
+    "frontend:dev": "npm run start --workspace=apps/frontend",
+    "frontend:build": "npm run build --workspace=apps/frontend",
+    "frontend:test": "npm run test --workspace=apps/frontend",
+    "backend:dev": "cd apps/backend && uvicorn src.main:app --reload",
+    "backend:test": "cd apps/backend && pytest"
+  },
+  "keywords": [
+    "bible",
+    "trivia",
+    "tournament",
+    "angular",
+    "fastapi",
+    "firebase"
+  ],
+  "author": "Biblia Question Team",
+  "license": "MIT"
+}

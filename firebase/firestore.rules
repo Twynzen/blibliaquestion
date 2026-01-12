@@ -1,0 +1,167 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ============================================
+    // FUNCIONES AUXILIARES
+    // ============================================
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return request.auth.token.admin == true;
+    }
+
+    function isModerator() {
+      return request.auth.token.moderator == true || isAdmin();
+    }
+
+    // ============================================
+    // USUARIOS
+    // ============================================
+    match /users/{userId} {
+      // Cualquier usuario autenticado puede leer perfiles
+      allow read: if isAuthenticated();
+
+      // Solo el dueño puede crear su perfil
+      allow create: if isAuthenticated()
+                    && isOwner(userId)
+                    && request.resource.data.role == 'player';
+
+      // El dueño puede actualizar su perfil (excepto rol y estrellas)
+      allow update: if isAuthenticated()
+                    && isOwner(userId)
+                    && request.resource.data.role == resource.data.role;
+
+      // Solo admin puede eliminar usuarios
+      allow delete: if isAdmin();
+    }
+
+    // ============================================
+    // TORNEOS
+    // ============================================
+    match /tournaments/{tournamentId} {
+      // Usuarios autenticados pueden ver torneos
+      allow read: if isAuthenticated();
+
+      // Solo admin puede gestionar torneos
+      allow create, update, delete: if isAdmin();
+
+      // PARTICIPANTES DEL TORNEO
+      match /participants/{oderId} {
+        // Todos pueden ver participantes
+        allow read: if isAuthenticated();
+
+        // Usuario puede inscribirse (crear su participación)
+        allow create: if isAuthenticated()
+                      && isOwner(oderId)
+                      && request.resource.data.oderId == request.auth.uid;
+
+        // Usuario puede actualizar su participación (limitado)
+        // Admin puede actualizar cualquier participación
+        allow update: if isAuthenticated()
+                      && (isOwner(oderId) || isAdmin());
+
+        // Solo admin puede eliminar participaciones
+        allow delete: if isAdmin();
+      }
+    }
+
+    // ============================================
+    // CONTENIDO DIARIO
+    // ============================================
+    match /dailyContent/{contentId} {
+      // Usuarios autenticados pueden ver contenido
+      allow read: if isAuthenticated();
+
+      // Solo admin puede gestionar contenido
+      allow create, update, delete: if isAdmin();
+    }
+
+    // ============================================
+    // PREGUNTAS
+    // ============================================
+    match /questions/{questionId} {
+      // Solo se pueden leer preguntas cuya fecha de liberación ya pasó
+      allow read: if isAuthenticated()
+                  && resource.data.releaseDate <= request.time;
+
+      // Admin puede leer todas las preguntas
+      allow read: if isAdmin();
+
+      // Solo admin puede gestionar preguntas
+      allow create, update, delete: if isAdmin();
+    }
+
+    // ============================================
+    // RESPUESTAS
+    // ============================================
+    match /answers/{answerId} {
+      // Usuario solo puede leer sus propias respuestas
+      allow read: if isAuthenticated()
+                  && resource.data.oderId == request.auth.uid;
+
+      // Admin puede leer todas las respuestas
+      allow read: if isAdmin();
+
+      // Usuario puede crear respuestas (solo las suyas)
+      allow create: if isAuthenticated()
+                    && request.resource.data.oderId == request.auth.uid;
+
+      // Las respuestas son inmutables (no se pueden editar ni borrar)
+      allow update, delete: if false;
+    }
+
+    // ============================================
+    // RETOS
+    // ============================================
+    match /challenges/{challengeId} {
+      // Usuarios autenticados pueden ver retos
+      allow read: if isAuthenticated();
+
+      // Solo admin puede gestionar retos
+      allow create, update, delete: if isAdmin();
+
+      // ENTREGAS DE VIDEOS
+      match /submissions/{submissionId} {
+        // Se pueden ver:
+        // - Entregas aprobadas (públicas)
+        // - Las propias entregas del usuario
+        // - Admin puede ver todo
+        allow read: if isAuthenticated()
+                    && (resource.data.status == 'approved'
+                        || resource.data.oderId == request.auth.uid
+                        || isAdmin());
+
+        // Usuario puede crear entregas (solo las suyas, estado pending)
+        allow create: if isAuthenticated()
+                      && request.resource.data.oderId == request.auth.uid
+                      && request.resource.data.status == 'pending';
+
+        // Solo admin/moderador puede actualizar (aprobar/rechazar)
+        allow update: if isModerator();
+
+        // Solo admin puede eliminar
+        allow delete: if isAdmin();
+      }
+    }
+
+    // ============================================
+    // LEADERBOARDS (Cache de rankings)
+    // ============================================
+    match /leaderboards/{leaderboardId} {
+      // Todos pueden leer rankings
+      allow read: if isAuthenticated();
+
+      // Solo el backend (Admin SDK) puede escribir
+      // Esto se hace desde Cloud Functions o el backend
+      allow write: if false;
+    }
+  }
+}
