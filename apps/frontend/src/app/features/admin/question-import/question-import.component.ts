@@ -1,4 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
+import { SlicePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import {
@@ -15,7 +16,7 @@ import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-question-import',
   standalone: true,
-  imports: [RouterLink, FormsModule],
+  imports: [RouterLink, FormsModule, SlicePipe],
   template: `
     <div class="import-page page">
       <div class="container">

@@ -1,0 +1,94 @@
+# =========================
+# DEPENDENCIAS
+# =========================
+node_modules/
+.npm
+.pnpm-store/
+
+# =========================
+# ARCHIVOS SENSIBLES
+# =========================
+# Firebase credentials (MUY IMPORTANTE)
+firebase-credentials.json
+*-firebase-adminsdk-*.json
+serviceAccountKey.json
+
+# Variables de entorno
+.env
+.env.local
+.env.*.local
+*.env
+
+# =========================
+# BUILDS Y COMPILACION
+# =========================
+dist/
+build/
+.angular/
+.cache/
+out-tsc/
+*.tsbuildinfo
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+*.egg
+.venv/
+venv/
+ENV/
+
+# =========================
+# IDE Y EDITORES
+# =========================
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.settings/
+*.sublime-workspace
+*.sublime-project
+
+# =========================
+# SISTEMA OPERATIVO
+# =========================
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log
+*.tmp
+*.temp
+
+# Archivos temporales de Claude
+tmpclaude-*-cwd
+.claude/
+
+# =========================
+# TESTING
+# =========================
+coverage/
+.nyc_output/
+*.lcov
+.pytest_cache/
+htmlcov/
+
+# =========================
+# MISC
+# =========================
+*.local
+*.bak
+*.backup
+.sass-cache/
+connect.lock
+libpeerconnection.log
+
+# Capturas de pantalla (opcional)
+*.PNG
+*.png
+!apps/frontend/public/favicon.ico

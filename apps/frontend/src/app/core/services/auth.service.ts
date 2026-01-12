@@ -145,7 +145,9 @@ export class AuthService {
     this._error.set(null);
 
     try {
-      await signInWithEmailAndPassword(this.auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(this.auth, email, password);
+      // Esperar a que se carguen los datos del usuario
+      await this.loadUserData(userCredential.user);
       return true;
     } catch (err: any) {
       this._error.set(this.getErrorMessage(err.code));
