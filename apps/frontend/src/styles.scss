@@ -2,28 +2,38 @@
 // VARIABLES GLOBALES
 // ============================================
 
-:root {
-  // Colores primarios
-  --color-primary: #4a90d9;
-  --color-primary-dark: #3a7bc8;
-  --color-primary-light: #6ba3e0;
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
 
-  // Colores secundarios
-  --color-secondary: #f0c14b;
-  --color-secondary-dark: #d4a83d;
+:root {
+  // Colores primarios - Azul profundo espiritual
+  --color-primary: #3d5a80;
+  --color-primary-dark: #293241;
+  --color-primary-light: #5c7a9e;
+
+  // Colores secundarios - Dorado sagrado
+  --color-secondary: #d4af37;
+  --color-secondary-dark: #b8860b;
+  --color-secondary-light: #f4e4bc;
+
+  // Colores de acento - Burgundy
+  --color-accent: #722f37;
+  --color-accent-dark: #4a1c23;
+  --color-accent-light: #8b4049;
 
   // Colores de estado
-  --color-success: #28a745;
-  --color-error: #dc3545;
-  --color-warning: #ffc107;
-  --color-info: #17a2b8;
+  --color-success: #2d6a4f;
+  --color-error: #9b2335;
+  --color-warning: #e9c46a;
+  --color-info: #457b9d;
 
-  // Colores neutros
-  --color-background: #f5f7fa;
+  // Colores neutros - Tonos pergamino
+  --color-background: #fdf8f0;
   --color-surface: #ffffff;
-  --color-text-primary: #1a1a2e;
-  --color-text-secondary: #6c757d;
-  --color-border: #dee2e6;
+  --color-parchment: #f5e6c8;
+  --color-cream: #faf6ed;
+  --color-text-primary: #2c1810;
+  --color-text-secondary: #5c4a42;
+  --color-border: #d4c5b0;
 
   // Espaciado
   --spacing-xs: 4px;
@@ -40,10 +50,11 @@
   --radius-xl: 16px;
   --radius-full: 9999px;
 
-  // Sombras
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  // Sombras con tono cálido
+  --shadow-sm: 0 1px 2px rgba(44, 24, 16, 0.08);
+  --shadow-md: 0 4px 12px rgba(44, 24, 16, 0.12);
+  --shadow-lg: 0 10px 25px rgba(44, 24, 16, 0.15);
+  --shadow-gold: 0 4px 20px rgba(212, 175, 55, 0.25);
 
   // Transiciones
   --transition-fast: 150ms ease;
@@ -496,4 +507,254 @@ a {
     padding: var(--spacing-sm) var(--spacing-lg);
     font-size: 1rem;
   }
+}
+
+// ============================================
+// ANIMACIONES GLOBALES
+// ============================================
+
+// Fade In desde abajo
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Fade In simple
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+// Revelación del título
+@keyframes titleReveal {
+  from {
+    opacity: 0;
+    letter-spacing: 0.5em;
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    letter-spacing: 0.08em;
+    filter: blur(0);
+  }
+}
+
+// Glow pulsante dorado
+@keyframes goldenGlow {
+  0%, 100% {
+    box-shadow: var(--shadow-md);
+  }
+  50% {
+    box-shadow: var(--shadow-gold);
+  }
+}
+
+// Glow de texto
+@keyframes textGlow {
+  0%, 100% {
+    text-shadow: 0 0 5px transparent;
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(212, 175, 55, 0.5), 0 0 40px rgba(212, 175, 55, 0.3);
+  }
+}
+
+// Flotación suave de partículas
+@keyframes floatParticle {
+  0% {
+    transform: translateY(100vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-100px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+// Pulso suave
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+// Escala de entrada
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// Deslizar desde la izquierda
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+// Shimmer effect para botones
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+// Clases de utilidad para animaciones
+.animate-fadeInUp {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-titleReveal {
+  animation: titleReveal 1.2s ease-out forwards;
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.5s ease-out forwards;
+}
+
+.animate-slideInLeft {
+  animation: slideInLeft 0.5s ease-out forwards;
+}
+
+.animate-glow {
+  animation: goldenGlow 3s ease-in-out infinite;
+}
+
+.animate-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+// Delays para animaciones escalonadas
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+.delay-600 { animation-delay: 0.6s; }
+.delay-700 { animation-delay: 0.7s; }
+.delay-800 { animation-delay: 0.8s; }
+
+// Estado inicial para elementos animados
+.animate-on-scroll {
+  opacity: 0;
+}
+
+.animate-on-scroll.visible {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+// ============================================
+// COMPONENTES MEJORADOS
+// ============================================
+
+// Tarjeta con efecto pergamino
+.card-parchment {
+  background: linear-gradient(135deg, var(--color-parchment) 0%, var(--color-cream) 50%, var(--color-parchment) 100%);
+  border: 1px solid var(--color-border);
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    pointer-events: none;
+    border-radius: inherit;
+  }
+}
+
+// Botón con efecto shimmer
+.btn-golden {
+  background: linear-gradient(90deg, var(--color-secondary-dark), var(--color-secondary), var(--color-secondary-dark));
+  background-size: 200% auto;
+  color: var(--color-text-primary);
+  border: none;
+  font-weight: 600;
+  transition: all var(--transition-normal);
+
+  &:hover {
+    background-position: right center;
+    box-shadow: var(--shadow-gold);
+    transform: translateY(-2px);
+  }
+}
+
+// Título con estilo bíblico
+.title-biblical {
+  font-family: 'Cinzel', serif;
+  color: var(--color-accent);
+  letter-spacing: 0.08em;
+  text-shadow: 1px 1px 2px rgba(44, 24, 16, 0.1);
+}
+
+// Ornamento decorativo
+.ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: var(--spacing-lg) auto;
+  max-width: 300px;
+
+  .ornament-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-secondary), transparent);
+  }
+
+  .ornament-symbol {
+    padding: 0 var(--spacing-md);
+    color: var(--color-secondary);
+    font-size: 1.25rem;
+    animation: pulse 3s ease-in-out infinite;
+  }
+}
+
+// Badge dorado
+.badge-golden {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-md);
+  background: linear-gradient(135deg, var(--color-secondary-light), var(--color-secondary));
+  color: var(--color-text-primary);
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: 0.875rem;
+  box-shadow: var(--shadow-sm);
 }
