@@ -31,7 +31,9 @@ interface Particle {
 
       <section class="hero">
         <div class="hero-content">
-          <div class="hero-icon animate-pulse">📖</div>
+          <div class="hero-logo animate-pulse">
+            <img src="images/logo_biblia_question.png" alt="Biblia Question Logo" class="logo-image" />
+          </div>
           <h1 class="hero-title animate-titleReveal">
             BIBLIA QUESTION
           </h1>
@@ -44,10 +46,18 @@ interface Particle {
             «Lámpara es a mis pies tu palabra, y lumbrera a mi camino»
           </p>
           <p class="hero-description animate-fadeInUp delay-400">
-            Aprende la Biblia mientras compites en emocionantes torneos.
-            Responde preguntas, gana estrellas y sube en el ranking.
+            <span class="hero-highlight">¡¡¡ Aprende de la Biblia mientras compites en emocionantes torneos internacionales !!!</span>
           </p>
-          <div class="hero-actions animate-fadeInUp delay-500">
+          <p class="hero-description-secondary animate-fadeInUp delay-450">
+            Responde preguntas a diario, gana estrellas, sube de ranking y sumérgete en la poderosa palabra de Dios.
+          </p>
+          <p class="hero-question animate-fadeInUp delay-500">
+            ¿Tienes el nivel para ser el próximo ganador del torneo?
+          </p>
+          <p class="hero-cta-text animate-fadeInUp delay-550">
+            ¡¡¡ Averígualo !!!
+          </p>
+          <div class="hero-actions animate-fadeInUp delay-600">
             <a routerLink="/auth/register" class="btn btn-golden btn-lg">
               Comenzar ahora
             </a>
@@ -222,10 +232,16 @@ interface Particle {
       z-index: 1;
     }
 
-    .hero-icon {
-      font-size: 4rem;
+    .hero-logo {
       margin-bottom: var(--spacing-md);
       filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.4));
+    }
+
+    .logo-image {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      border-radius: var(--radius-lg);
     }
 
     .hero-title {
@@ -266,8 +282,52 @@ interface Particle {
       font-size: 1.125rem;
       opacity: 0;
       line-height: 1.8;
-      margin-bottom: var(--spacing-xl);
+      margin-bottom: var(--spacing-md);
       color: rgba(255, 255, 255, 0.9);
+    }
+
+    .hero-highlight {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--color-secondary-light);
+      display: block;
+    }
+
+    .hero-description-secondary {
+      font-size: 1.1rem;
+      opacity: 0;
+      line-height: 1.8;
+      margin-bottom: var(--spacing-md);
+      color: rgba(255, 255, 255, 0.85);
+      animation: fadeInUp 0.6s ease-out forwards;
+    }
+
+    .hero-question {
+      font-size: 1.15rem;
+      opacity: 0;
+      line-height: 1.6;
+      margin-bottom: var(--spacing-sm);
+      color: rgba(255, 255, 255, 0.9);
+      font-style: italic;
+      animation: fadeInUp 0.6s ease-out forwards;
+    }
+
+    .hero-cta-text {
+      font-size: 1.5rem;
+      font-weight: 700;
+      opacity: 0;
+      color: var(--color-secondary);
+      margin-bottom: var(--spacing-xl);
+      text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+      animation: fadeInUp 0.6s ease-out forwards, textGlow 2s ease-in-out infinite;
+    }
+
+    .delay-450 {
+      animation-delay: 0.45s;
+    }
+
+    .delay-550 {
+      animation-delay: 0.55s;
     }
 
     .hero-actions {
