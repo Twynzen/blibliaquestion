@@ -8,5 +8,5 @@ export const environment = {
     messagingSenderId: "583334169404",
     appId: "1:583334169404:web:1ba31abcf081fbeb07ac39"
   },
-  apiUrl: 'https://biblia-question-api.onrender.com/api/v1'
+  apiUrl: 'https://blibliaquestion.onrender.com/api/v1'
 };
