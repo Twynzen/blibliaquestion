@@ -13,7 +13,7 @@ import { GeographicDataService, Country } from '@core/services/geographic-data.s
     <div class="auth-page">
       <div class="auth-card">
         <div class="auth-header">
-          <span class="auth-icon">📖</span>
+          <img src="/images/logo_biblia_question.png" alt="Biblia Question" class="auth-logo" />
           <h1 class="auth-title">Crear Cuenta</h1>
           <p class="auth-subtitle">Únete a Biblia Question y empieza a competir</p>
         </div>
@@ -252,9 +252,10 @@ import { GeographicDataService, Country } from '@core/services/geographic-data.s
       margin-bottom: var(--spacing-xl);
     }
 
-    .auth-icon {
-      font-size: 3rem;
-      display: block;
+    .auth-logo {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
       margin-bottom: var(--spacing-md);
     }
 

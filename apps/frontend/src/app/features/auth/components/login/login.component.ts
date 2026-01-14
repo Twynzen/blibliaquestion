@@ -11,7 +11,7 @@ import { AuthService } from '@core/services/auth.service';
     <div class="auth-page">
       <div class="auth-card">
         <div class="auth-header">
-          <span class="auth-icon">📖</span>
+          <img src="/images/logo_biblia_question.png" alt="Biblia Question" class="auth-logo" />
           <h1 class="auth-title">Iniciar Sesion</h1>
           <p class="auth-subtitle">Bienvenido de vuelta a Biblia Question</p>
         </div>
@@ -103,9 +103,10 @@ import { AuthService } from '@core/services/auth.service';
       margin-bottom: var(--spacing-xl);
     }
 
-    .auth-icon {
-      font-size: 3rem;
-      display: block;
+    .auth-logo {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
       margin-bottom: var(--spacing-md);
     }
 

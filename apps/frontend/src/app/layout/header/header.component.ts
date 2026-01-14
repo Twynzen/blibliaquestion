@@ -264,6 +264,6 @@ export class HeaderComponent {
   async logout(): Promise<void> {
     await this.authService.logout();
     this.menuOpen = false;
-    this.router.navigate(['/auth/login']);
+    this.router.navigate(['/']);
   }
 }
