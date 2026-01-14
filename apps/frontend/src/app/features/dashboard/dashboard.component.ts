@@ -2,8 +2,10 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { Firestore, collection, query, where, getDocs, orderBy, limit } from '@angular/fire/firestore';
 import { AuthService } from '@core/services/auth.service';
+import { WelcomeModalsService } from '@core/services/welcome-modals.service';
 import { Tournament } from '@shared/models';
 import { LoaderComponent } from '@shared/components/loader/loader.component';
+import { WelcomeFlowComponent } from '@shared/components/welcome-flow/welcome-flow.component';
 
 interface RankEntry {
   rank: number;
@@ -15,8 +17,11 @@ interface RankEntry {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [RouterLink, LoaderComponent],
+  imports: [RouterLink, LoaderComponent, WelcomeFlowComponent],
   template: `
+    <!-- Welcome Flow Modals -->
+    <app-welcome-flow></app-welcome-flow>
+
     <div class="dashboard page">
       <div class="container">
         <header class="page-header">
@@ -246,6 +251,7 @@ export class DashboardComponent implements OnInit {
   protected authService = inject(AuthService);
   private firestore = inject(Firestore);
   private router = inject(Router);
+  private welcomeModalsService = inject(WelcomeModalsService);
 
   loading = signal(true);
   activeTournament = signal<Tournament | null>(null);
@@ -253,6 +259,12 @@ export class DashboardComponent implements OnInit {
   userRank = signal<number | null>(null);
 
   async ngOnInit(): Promise<void> {
+    // Check and start welcome flow for new users
+    const userId = this.authService.userId();
+    if (userId) {
+      await this.welcomeModalsService.startWelcomeFlow(userId);
+    }
+
     await this.loadDashboardData();
   }
 
