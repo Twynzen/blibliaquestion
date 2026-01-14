@@ -287,9 +287,9 @@ import { CommonModule } from '@angular/common';
 export class DonationModalComponent {
   @Output() closed = new EventEmitter<void>();
 
-  // Números de pago - CONFIGURABLES
-  readonly nequiNumber = '320XXXXXXX';
-  readonly daviplataNumber = '320XXXXXXX';
+  // Números de pago
+  readonly nequiNumber = '3228323105';
+  readonly daviplataNumber = '3228323105';
   readonly paypalUrl = 'https://paypal.com/ncp/payment/WF9W9X4LBUSUW';
 
   // Estados para los indicadores de copiado
