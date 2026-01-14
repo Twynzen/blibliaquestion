@@ -32,7 +32,7 @@ interface Particle {
       <section class="hero">
         <div class="hero-content">
           <div class="hero-logo animate-pulse">
-            <img src="images/logo_biblia_question.png" alt="Biblia Question Logo" class="logo-image" />
+            <img src="/images/logo_biblia_question.png" alt="Biblia Question Logo" class="logo-image" />
           </div>
           <h1 class="hero-title animate-titleReveal">
             BIBLIA QUESTION
